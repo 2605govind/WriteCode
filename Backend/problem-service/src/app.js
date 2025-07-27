@@ -27,8 +27,4 @@ app.use('/api/v1/ai',aiRouter);
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/", (req, res) => {
-    res.send("problem service");
-})
-
 export default app;
