@@ -28,10 +28,4 @@ app.use('/api/v1/registerduser', registeredAccountRoutes);
 app.use('/api/v1/service', serviceRoutes); 
 app.use('/api/v1/course', courseRoutes); 
 
-
-app.use("/", (req, res) => {
-    // console.log(req.body);
-    res.send("auth service");
-})
-
 export default app;
