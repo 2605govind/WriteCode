@@ -46,7 +46,7 @@ export default function GoogleLogin({setDisableAll, disableAll}) {
         flow: 'auth-code',
         onSuccess: handleSuccess,
         onError: handleError,
-        clientId: '307544145671-7rndudjqdqk3b1i6nitch2arhoulrojk.apps.googleusercontent.com',
+        clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         scope: 'email profile',
         redirect_uri: window.location.origin,
         onNonOAuthError: () => setIsLoading(false),
