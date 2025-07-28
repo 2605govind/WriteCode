@@ -56,9 +56,9 @@ export const authGoogle = async (req, res) => {
         const token = generateJWTToken({ _id: user._id });
         res.cookie("token", token, {
             httpOnly: true,          // JS can't access cookie
-            secure: true,            // Only sent over HTTPS
+            secure: false,            // Only sent over HTTPS
             maxAge: process.env.JWT_EXP_HOURS * 1000 * 60 * 60,  // In hour
-            sameSite: "strict"       // Prevent CSRF
+            sameSite: "none"       // Prevent CSRF
         });
 
 
@@ -146,9 +146,9 @@ export const authGithub = async (req, res) => {
         const token = generateJWTToken({ _id: user._id });
         res.cookie("token", token, {
             httpOnly: true,          // JS can't access cookie
-            secure: true,            // Only sent over HTTPS
+            secure: false,            // Only sent over HTTPS
             maxAge: process.env.JWT_EXP_HOURS * 1000 * 60 * 60,  // In hour
-            sameSite: "strict"       // Prevent CSRF
+            sameSite: "none"       // Prevent CSRF
         });
 
 
@@ -325,9 +325,9 @@ export const varifyEmailOTP = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,          // JS can't access cookie
-            secure: true,            // Only sent over HTTPS
+            secure: false,            // Only sent over HTTPS
             maxAge: process.env.JWT_EXP_HOURS * 1000 * 60 * 60,  // In hour
-            sameSite: "strict"       // Prevent CSRF
+            sameSite: "none"       // Prevent CSRF
         });
 
         const reply = {
@@ -395,9 +395,9 @@ export const loginWithEmail = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,          // JS can't access cookie
-            secure: true,            // Only sent over HTTPS
+            secure: false,            // Only sent over HTTPS
             maxAge: process.env.JWT_EXP_HOURS * 1000 * 60 * 60,  // In hour
-            sameSite: "strict"       // Prevent CSRF
+            sameSite: "none"       // Prevent CSRF
         });
 
 
