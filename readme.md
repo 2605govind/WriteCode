@@ -28,12 +28,12 @@ A LeetCode-style platform with AI-powered coding assistance, featuring:
 ## 📸 Screenshots
 | Page | Screenshot |
 |------|------------|
-| **RegisterPage** | ![Homepage](./photos/registerpage.PNG) |
-| **loginPage** | ![Homepage](./photos/loginpage.PNG) |
-| **HomePage** | ![Homepage](./photos/home1.PNG) |
-| **HomePage** | ![Homepage](./photos/home2.PNG) |
-| **Problem Solving** | ![Problem Page](./photos/problem.PNG) |
-| **Admin Dashboard** | ![Admin Dashboard](./photos/admin.PNG) |
+| **RegisterPage** | ![Homepage](./Photos/registerpage.PNG) |
+| **loginPage** | ![Homepage](./Photos/loginpage.PNG) |
+| **HomePage** | ![Homepage](./Photos/home1.PNG) |
+| **HomePage** | ![Homepage](./Photos/home2.PNG) |
+| **Problem Solving** | ![Problem Page](./Photos/problem.PNG) |
+| **Admin Dashboard** | ![Admin Dashboard](./Photos/admin.PNG) |
 
 ## 🛠 Tech Stack (Detailed)
 **Frontend Architecture:**
