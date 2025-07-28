@@ -1,10 +1,4 @@
-Here's a comprehensive **README.md** for your project, including documentation, tech stack, and setup instructions:
-
-```markdown
-# WriteCode - Full-Stack Coding Platform 🚀
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Microservices](https://img.shields.io/badge/Architecture-Microservices-blue)](https://microservices.io)
+# WriteCode - Full-Stack Coding Platform
 
 A LeetCode-style platform with AI-powered coding assistance, featuring:
 - Problem solving interface with real-time output
@@ -14,125 +8,158 @@ A LeetCode-style platform with AI-powered coding assistance, featuring:
 
 ## 🌟 Features
 **Frontend:**
-- Monaco Editor integration
-- JWT-based authentication
-- Redux state management
-- TailwindCSS styling
+- Monaco Editor with custom keybindings
+- JWT-based authentication with refresh tokens
+- Redux state management with persistence
+- TailwindCSS with dark/light mode toggle
 - Multi-tab problem interface (Description, Solutions, AI Chat)
 
 **Backend Services:**
-1. **Authentication Service**: OAuth2 (Google/GitHub), Email verification
-2. **Problem Service**: CRUD operations, submissions, AI integration (Google GenAI)
+1. **Authentication Service**: 
+   - OAuth2 (Google/GitHub) 
+   - Email verification with rate limiting
+   - Password reset flow
+2. **Problem Service**: 
+   - CRUD operations with versioning
+   - Test case evaluation engine
+   - Google GenAI integration for hints
+  
 
-## 🛠 Tech Stack
-**Frontend:**
+## 📸 Screenshots
+| Page | Screenshot |
+|------|------------|
+| **RegisterPage** | ![Homepage](./photos/registerpage.PNG) |
+| **loginPage** | ![Homepage](./photos/loginpage.PNG) |
+| **HomePage** | ![Homepage](./photos/home1.PNG) |
+| **HomePage** | ![Homepage](./photos/home2.PNG) |
+| **Problem Solving** | ![Problem Page](./photos/problem.PNG) |
+| **Admin Dashboard** | ![Admin Dashboard](./photos/admin.PNG) |
+
+## 🛠 Tech Stack (Detailed)
+**Frontend Architecture:**
 ```mermaid
-pie
-    title Frontend Tech
-    "React 19" : 35
-    "Vite" : 20
-    "Redux Toolkit" : 15
-    "MUI + Tailwind" : 20
-    "React Hook Form + Zod" : 10
+graph TD
+    A[Vite] --> B[React 19]
+    B --> C[React Router 6]
+    B --> D[Redux Toolkit]
+    D --> E[Persist State]
+    B --> F[Monaco Editor]
+    B --> G[React Hook Form + Zod]
 ```
 
-**Backend (Microservices):**
-- **Core:**
-  - Node.js (Express)
-  - MongoDB (Mongoose)
-  - Redis (Caching/Sessions)
-- **Auth Service:**
-  - Passport.js (OAuth)
-  - JWT + Cookie-based sessions
-  - Nodemailer (Email verification)
-- **Problem Service:**
-  - Google GenAI integration
-  - Submission evaluation system
+**Backend Services:**
+| Service | Tech | Key Packages |
+|---------|------|--------------|
+| **API Gateway** | Node.js | Express, http-proxy-middleware |
+| **Auth Service** | Node.js | Passport, jsonwebtoken, bcrypt |
+| **Problem Service** | Node.js | Mongoose, Google GenAI SDK |
+| **Database** | MongoDB | Atlas, Mongoose ODM |
 
-## 🚀 Installation
+
+## 🚀 Installation (Detailed)
 ### Prerequisites
-- Node.js v18+
-- MongoDB Atlas URI
-- Redis server
+- Node.js v18+ (recommend using nvm)
+- MongoDB Atlas URI (free tier sufficient)
+- Redis server (local or cloud)
 - Google OAuth credentials
+- Google GenAI API key
 
-### Setup
-1. **Clone Repo**
-```bash
-git clone https://github.com/yourusername/writecode.git
-cd writecode
-```
 
-2. **Frontend Setup**
+### Manual Setup
 ```bash
+# Frontend
 cd frontend
 npm install
-cp .env.example .env # Update VITE_API_URL
 npm run dev
-```
 
-3. **Backend Services**
-```bash
-# Authentication Service
+# Auth Service (port 3001)
 cd auth-service
 npm install
-cp .env.example .env # Add MongoDB/Redis/OAuth keys
+npm run migrate # for initial DB setup
 npm run dev
 
-# Problem Service (in another terminal)
+# Problem Service (port 3002)
 cd problem-service
 npm install
-cp .env.example .env
+npm run seed # optional sample problems
 npm run dev
 ```
 
-## 📂 Project Structure
+## 📂 Project Structure (Expanded)
 ```
 frontend/
-├── src
-│   ├── components/      # Reusable UI components
-│   ├── pages/           # Route-level pages
-│   ├── store/           # Redux configuration
-│   └── utils/           # Axios client, helpers
+├── public/              # Static assets
+├── src/
+│   ├── assets/          # SVGs, images
+│   ├── components/      # Atomic design structure
+│   │   ├── atoms/
+│   │   ├── molecules/
+│   │   └── organisms/
+│   ├── features/        # Redux slices
+│   ├── hooks/           # Custom hooks
+│   ├── layouts/         # Page wrappers
+│   ├── pages/           # Next.js-style routing
+│   ├── services/        # API clients
+│   └── utils/           # Helpers, constants
 
 auth-service/
-├── src
-│   ├── config/          # DB/Redis/OAuth configs
-│   ├── controllers/     # Business logic
-│   └── models/          # MongoDB schemas
+├── src/
+│   ├── middlewares/     # Auth guards
+│   ├── strategies/      # Passport configs
+│   ├── services/        # Email, token services
+│   └── validations/    # Joi schemas
 
 problem-service/
-├── src
-│   ├── controllers/     # Problem & AI logic
-│   └── routes/          # API endpoints
+├── testcases/           # Problem test cases
+├── src/
+│   ├── evaluator/       # Code execution logic
+│   ├── ai/             # GenAI integration
+│   └── seeders/        # Sample problems
 ```
 
-## 🔍 Documentation
-### High-Level Design
+## 🔍 Technical Documentation
+### Authentication Sequence
 ```mermaid
-flowchart TD
-    A[Frontend] --> B[Auth Service]
-    A --> C[Problem Service]
-    B --> D[(MongoDB)]
-    C --> D
-    C --> E[(Redis)]
-    C --> F[Google GenAI]
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Auth Service
+    participant G as Google
+    
+    U->>F: Clicks "Login with Google"
+    F->>G: Redirect to OAuth
+    G-->>F: Returns auth code
+    F->>A: POST /auth/google {code}
+    A->>G: Verify code
+    G-->>A: User profile
+    A->>A: Create user if new
+    A-->>F: {jwt, refreshToken}
+    F->>F: Store in HttpOnly cookie
 ```
 
-### Key Components
-1. **AI-Powered Problem Solving**:
-   - Google GenAI integration for code explanations
-   - Submission history tracking
-
-2. **Auth Flow**:
-   ```mermaid
-   sequenceDiagram
-       User->>Frontend: Login (Google/GitHub)
-       Frontend->>Auth Service: OAuth token
-       Auth Service->>MongoDB: Verify/Create user
-       Auth Service-->>Frontend: JWT cookie
+### Code Evaluation Flow
+1. User submits code
+2. Problem service:
+   - Creates isolated Docker container
+   - Runs against test cases
+   - Compares outputs with expected results
+   - Stores submission in MongoDB
+3. Returns detailed results:
+   ```json
+   {
+     "status": "Accepted",
+     "runtime": "45ms",
+     "memory": "12.3MB",
+     "testCases": [
+       {"input": "5", "output": "120", "expected": "120", "passed": true}
+     ]
+   }
    ```
 
-3. **Problem Evaluation**:
-   - Test case validation
-   - Real-time output comparison
+## 🌐 API Endpoints
+| Service | Route | Method | Description |
+|---------|-------|--------|-------------|
+| **Auth** | `/auth/google` | POST | Initiate OAuth flow |
+| **Auth** | `/auth/refresh` | GET | Refresh JWT token |
+| **Problem** | `/problems/:id` | GET | Get problem details |
+| **Problem** | `/problems/submit` | POST | Submit solution |
